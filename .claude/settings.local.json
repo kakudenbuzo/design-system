@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(pnpm install:*)",
+      "Bash(npm install:*)",
+      "Bash(pnpm build:*)",
+      "Bash(mv:*)",
+      "Bash(pnpm --filter @company/ui build)",
+      "Bash(turbo build:*)",
+      "Bash(pnpm --filter=\"@company/*\" build)",
+      "Bash(pnpm storybook:*)",
+      "Bash(pnpm --filter storybook build)",
+      "Bash(pnpm --filter @company/tokens build)"
+    ],
+    "deny": []
+  }
+}
