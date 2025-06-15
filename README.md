@@ -10,11 +10,12 @@
 ## ✨ 特徴
 
 - 🎨 **デザイントークン駆動**: Figma から JSON でエクスポート可能
-- 🧩 **shadcn/ui ベース**: アクセシビリティとカスタマイズ性を両立
-- 🌈 **テーマ切り替え**: CSS変数ベースの動的テーマシステム
+- 🧩 **shadcn/ui 公式採用**: エンタープライズグレードのアクセシビリティとカスタマイズ性
+- 🌈 **テーマ切り替え**: CSS変数ベースの動的テーマシステム（Default + Boxing）
 - 📚 **Storybook**: 美しいドキュメントとコンポーネントカタログ
 - ⚡ **高速ビルド**: Turborepo + tsup による最適化
 - 🔒 **型安全**: 完全な TypeScript サポート
+- ♿ **アクセシビリティ**: ARIA準拠、キーボードナビゲーション対応
 
 ## 🚀 クイックスタート
 
@@ -104,9 +105,21 @@ function ThemeToggle() {
 
 ### 利用可能なコンポーネント
 
+#### 現在実装済み
 - **Button**: 6つのバリアント（default, destructive, outline, secondary, ghost, link）
 - **Input**: 各種input要素に対応
 - **ThemeProvider**: テーマ管理コンテキスト
+
+#### shadcn/ui で追加可能
+```bash
+npx shadcn@latest add card          # カードコンポーネント
+npx shadcn@latest add dialog        # モーダルダイアログ
+npx shadcn@latest add dropdown-menu # ドロップダウンメニュー
+npx shadcn@latest add form          # フォーム
+npx shadcn@latest add table         # テーブル
+npx shadcn@latest add tabs          # タブ
+# その他100以上のコンポーネント
+```
 
 ## 🎯 デザイントークンの使い方
 
@@ -208,9 +221,62 @@ echo "@company:registry=https://your-private-registry.com/" >> .npmrc
 - **CSS変数**: ランタイムテーマ切り替え
 
 ### UIコンポーネント
-- **shadcn/ui**: アクセシビリティ基盤
-- **Radix UI**: 堅牢なプリミティブ
-- **Tailwind CSS**: ユーティリティファースト
+- **shadcn/ui**: 公式コンポーネントライブラリ
+- **Radix UI**: WAI-ARIA準拠のアクセシブルなプリミティブ
+- **class-variance-authority**: 型安全なバリアント管理
+- **Tailwind CSS**: ユーティリティファーストCSS
+
+## 🔧 コンポーネントの追加
+
+### shadcn/ui コンポーネントの追加
+
+このプロジェクトは shadcn/ui を公式採用しているため、新しいコンポーネントを簡単に追加できます：
+
+```bash
+# UI パッケージディレクトリに移動
+cd packages/ui
+
+# 必要なコンポーネントを追加
+npx shadcn@latest add card
+npx shadcn@latest add dialog
+npx shadcn@latest add form
+
+# src/index.ts でエクスポート
+echo "export { Card } from './components/ui/card'" >> src/index.ts
+```
+
+### Boxing テーマ対応
+
+新しいコンポーネントにBoxingテーマを適応する場合：
+
+```tsx
+// components/ui/your-component.tsx
+const YourComponent = forwardRef<HTMLDivElement, YourComponentProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        className={cn(
+          "base-styles",
+          "boxing-your-component", // Boxing テーマ用クラス
+          className
+        )}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+```
+
+```css
+/* styles/globals.css */
+[data-theme="boxing"] .boxing-your-component {
+  /* Boxing テーマ専用スタイル */
+  border-radius: 0;
+  border-width: 3px;
+  /* ... */
+}
+```
 
 ## 🤝 コントリビューション
 
@@ -218,16 +284,20 @@ echo "@company:registry=https://your-private-registry.com/" >> .npmrc
 
 1. **イシューの確認**: 既存のissueを確認するか、新しいissueを作成
 2. **ブランチ作成**: `git checkout -b feature/your-feature-name`
-3. **開発**: コンポーネントやトークンを実装
-4. **テスト**: Storybookで動作確認
+3. **開発**: 
+   - shadcn/ui コンポーネント追加: `npx shadcn@latest add <component>`
+   - カスタムトークンやテーマの実装
+4. **テスト**: Storybookで動作確認とテーマ切り替えテスト
 5. **プルリクエスト**: 変更内容を説明してPR作成
 
 ### コーディング規約
 
 - **TypeScript**: 厳密な型定義を心がける
-- **コンポーネント**: `forwardRef` でref対応
-- **CSS**: Tailwindクラスを優先、必要に応じてCSS変数
+- **コンポーネント**: shadcn/ui標準に従う（`forwardRef`, `cn()`, `VariantProps`）
+- **新規コンポーネント**: 可能な限りshadcn/uiから追加
+- **CSS**: Tailwindクラスを優先、Boxing テーマは CSS変数と専用クラス
 - **命名**: kebab-caseファイル、PascalCaseコンポーネント
+- **アクセシビリティ**: ARIA属性とキーボードナビゲーションを重視
 
 ### コミットメッセージ
 
