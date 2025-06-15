@@ -1,9 +1,8 @@
-// Components
-export { Button, buttonVariants } from './components/button'
-export type { ButtonProps } from './components/button'
+// Components (shadcn/ui)
+export { Button, buttonVariants } from './components/ui/button'
+export type { ButtonProps } from './components/ui/button'
 
-export { Input } from './components/input'
-export type { InputProps } from './components/input'
+export { Input } from './components/ui/input'
 
 export { ThemeProvider, useTheme } from './components/theme-provider'
 

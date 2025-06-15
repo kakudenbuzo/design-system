@@ -11,7 +11,9 @@
       "Bash(pnpm --filter=\"@company/*\" build)",
       "Bash(pnpm storybook:*)",
       "Bash(pnpm --filter storybook build)",
-      "Bash(pnpm --filter @company/tokens build)"
+      "Bash(pnpm --filter @company/tokens build)",
+      "Bash(npx:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }
